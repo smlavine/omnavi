@@ -32,9 +32,9 @@ omnavi -d 'last wednesday'  # reads from standard input, but also compares again
 ```
 
 # DEPENDENCIES
-	* GNU coreutils
-	* GNU sed
-	* curl
-	* youtube-dl
-	* jq
+* GNU coreutils
+* GNU sed
+* curl
+* youtube-dl
+* jq
 
