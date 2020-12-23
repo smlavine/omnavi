@@ -84,7 +84,11 @@ usage() {
 		    -d date     Instead of comparing against 24 hours ago,
 		                compares against this date.
 		Examples:
-		
+		     omnavi # reads from standard input
+			 omanvi -f feeds.txt # reads feeds from feeds.txt
+			 omnavi -f feeds.txt -d 'yesterday 10:40am UTC' # also uses specified date
+			 omnavi -d 'last wednesday' # reads from standard input, but also compares against specified date
+
 	EOF
 }
 
