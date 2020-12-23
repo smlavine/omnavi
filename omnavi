@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # omnavi - A program to receive YouTube subscriptions without a Google account.
 # Copyright (C) 2020 Sebastian LaVine <mail@smlavine.com>
 # 
