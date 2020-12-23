@@ -1,0 +1,57 @@
+#!/bin/sh
+# omnavi - A program to receive YouTube subscriptions without a Google account.
+# Copyright (C) 2020 Sebastian LaVine <mail@smlavine.com>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see http://www.gnu.org/licenses/.
+
+# Usage: omnavi
+# Lines read from standard input are expected to be YouTube XML RSS feed links.
+# A formatted description of the videos that were uploaded in the past day will
+# be outputted.
+
+yesterday="$(date +%s --date=yesterday)"
+
+while read feed; do
+	# Must declare variable at this scope because of how while loops and
+	# subshells are handled.
+	info=""
+	while read line && read uploadtime; do
+
+		# The first line is the name of input is the channel.
+		[ -z "$info" ] && info="│$line:\n"
+
+		# Convert the upload timestamps to epoch time.
+		uploadtime="$(date +%s -d "$uploadtime")"
+
+		# Only print video info if the video was uploaded since yesterday.
+		if [ "$uploadtime" -gt "$yesterday" ]; then
+			while read title && read dur && read id; do
+				# Nicely format information about the video.
+				# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
+				# removes the hours place if it is empty.
+				dur="$(printf "[%02d:%02d:%02d]" $(( dur / 3600 )) $(( ( dur / 60 ) % 60 )) $(( dur % 60 )) | sed 's/\[00:/\[/')"
+				info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
+			done < <(youtube-dl --no-warnings -j "$line" |
+				jq -r '.title,.duration,.id')
+		fi
+	done < <(curl -sL "$feed" | sed 's/^ *//' |
+		grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' |
+		sed 's|^<yt:videoId>|youtu.be/|;s|</yt:videoId>$||' |
+		sed '2,${ /^<name>.*$/ d};' | # Keep name at top though
+		sed 's/<[a-z]*>//g;s|</[a-z]*>||g') # Remove XML tags
+			# Only print info if there are new videos, meaning info is more
+			# than one line long.
+			[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
+		done
+
