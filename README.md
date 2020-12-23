@@ -1,6 +1,8 @@
 # OMNAVI
 
+```
 omnavi - A program to receive YouTube subscriptions without a Google account.
+
 Copyright (C) 2020 Sebastian LaVine <mail@smlavine.com>
 
 This program is free software: you can redistribute it and/or modify
@@ -23,7 +25,6 @@ Options:
 -d date     Instead of comparing against 24 hours ago,
             compares against this date.
 Examples:
-```
 omnavi  # reads from standard input
 omanvi -f feeds.txt  # reads feeds from feeds.txt
 omnavi -f feeds.txt -d 'yesterday 10:40am UTC'  # also uses specified date
@@ -31,9 +32,9 @@ omnavi -d 'last wednesday'  # reads from standard input, but also compares again
 ```
 
 # DEPENDENCIES
-	-- GNU coreutils
-	-- GNU sed
-	-- curl
-	-- youtube-dl
-	-- jq
+	* GNU coreutils
+	* GNU sed
+	* curl
+	* youtube-dl
+	* jq
 
