@@ -101,5 +101,9 @@ while getopts "hf:d:" o; do
 		*) usage && exit ;;
 	esac
 done
-[ "$file" = "-" -o -f "$file" ] && output ||
-	echo "Error: "$file" does not exist." >/dev/stderr && exit
+if [ "$file" = "-" -o -f "$file" ]; then
+	output
+else
+	echo "Error: "$file" does not exist." >/dev/stderr
+	exit 1
+fi
