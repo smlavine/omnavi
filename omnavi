@@ -22,7 +22,7 @@
 
 output() {
 
-	# Exit if date is invalid
+	# Exit if date is invalid. This will also print date's output to stderr.
 	compdate="$(date +%s --date="$date")" || exit
 
 	cat "$file" | while read feed; do
