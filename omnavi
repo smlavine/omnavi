@@ -20,7 +20,12 @@ output() {
 	# Exit if date is invalid. This will also print date's output to stderr.
 	compdate="$(date +%s --date="$date")" || exit
 
-	cat "$file" | while read feed; do
+	# Follow this with a channel ID to get a URL to a channel's RSS feed.
+	feed_prefix="https://www.youtube.com/feeds/videos.xml?channel_id="
+
+	# Only the first column of a file is read to allow for comments (like the
+	# channel's name) to follow.
+	awk '{ print $1 }' "$file" | while read channel_id; do
 		# Must declare variable at this scope because of how while loops and
 		# subshells are handled.
 		info=""
@@ -43,7 +48,7 @@ output() {
 			done < <(youtube-dl --no-warnings -j "$line" |
 				jq -r '.title,.duration,.id')
 		fi
-	done < <(curl -sL "$feed" | sed 's/^ *//' |
+	done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' |
 		grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' |
 		sed 's|^<yt:videoId>|youtu.be/|;s|</yt:videoId>$||' |
 		sed '2,${ /^<name>.*$/ d};' | # Keep name at top though
