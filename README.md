@@ -25,16 +25,16 @@ Options:
                 compares against this date.
 Examples:
     omnavi # reads from standard input
-	omanvi -f feeds.txt # reads feeds from feeds.txt
-	omnavi -f feeds.txt -d 'yesterday 10:40am UTC' # also uses specified date
-	omnavi -d 'last wednesday' # reads from standard input, but also compares against specified date
+    omanvi -f feeds.txt # reads feeds from feeds.txt
+    omnavi -f feeds.txt -d 'yesterday 10:40am UTC' # also uses specified date
+    omnavi -d 'last wednesday' # reads from standard input, but also compares against specified date
 Input format:
-	<channel-id>            	<Only the first column of input is read.>
-	...
-	UCL7DDQWP6x7wy0O6L5ZIgxg	2ndJerma
-	UC9_p50tH3WmMslWRWKnM7dQ	Adam Ragusea
-	UCBa659QWEk1AI4Tg--mrJ2A	Tom Scott
-	UCBgWgQyEb5eTzvh4lLcuipQ	Wikitongues
+    <channel-id>            	<Only the first column of input is read.>
+    ...
+    UCL7DDQWP6x7wy0O6L5ZIgxg	2ndJerma
+    UC9_p50tH3WmMslWRWKnM7dQ	Adam Ragusea
+    UCBa659QWEk1AI4Tg--mrJ2A	Tom Scott
+    UCBgWgQyEb5eTzvh4lLcuipQ	Wikitongues
 ```
 
 # DEPENDENCIES
