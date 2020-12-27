@@ -19,7 +19,7 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Usage: omnavi [-hn] [-d date] [-f file]
 Options:
-    -h          Prints this help.
+    -h          Prints this help and exits.
 	-n          Don't print Unicode line characters when formatting.
     -d date     Instead of comparing against 24 hours ago,
                 compares against this date.
