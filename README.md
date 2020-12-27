@@ -17,12 +17,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Usage: $(basename $0) [-h] [-f file] [-d date]
+Usage: omnavi [-d date] [-f file] [-h]
 Options:
-    -h          Prints this help.
-    -f file     Instead of reading from stdin, reads from this file.
     -d date     Instead of comparing against 24 hours ago,
                 compares against this date.
+    -f file     Instead of reading from stdin, reads from this file.
+    -h          Prints this help.
 Examples:
     omnavi # reads from standard input
     omanvi -f feeds.txt # reads feeds from feeds.txt
@@ -35,6 +35,7 @@ Input format:
     UC9_p50tH3WmMslWRWKnM7dQ	Adam Ragusea
     UCBa659QWEk1AI4Tg--mrJ2A	Tom Scott
     UCBgWgQyEb5eTzvh4lLcuipQ	Wikitongues
+
 ```
 
 # DEPENDENCIES
