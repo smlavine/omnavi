@@ -90,11 +90,11 @@ usage() {
 
 		Usage: omnavi [-hn] [-d date] [-f file]
 		Options:
-		    -h          Prints this help and exits.
+		    -h          Print this help and exit.
 			-n          Don't print Unicode line characters when formatting.
 		    -d date     Instead of comparing against 24 hours ago,
-		                compares against this date.
-		    -f file     Instead of reading from stdin, reads from this file.
+		                compare against this date.
+		    -f file     Instead of reading from stdin, read from this file.
 		Examples:
 		    omnavi # reads from standard input
 		    omanvi -f feeds.txt # reads feeds from feeds.txt
