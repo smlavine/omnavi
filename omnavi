@@ -30,33 +30,44 @@ output() {
 		# subshells are handled.
 		info=""
 		while read line && read uploadtime; do
+			# The first line is the name of input is the channel.
+			[ -z "$info" ] &&
+				if [ -n "$nolinechars" ]; then
+				info="$line:\n"
+			else
+				info="|$line:\n"
+			fi
 
-		# The first line is the name of input is the channel.
-		[ -z "$info" ] && info="│$line:\n"
+			# Convert the upload timestamps to epoch time.
+			uploadtime="$(date +%s -d "$uploadtime")"
 
-		# Convert the upload timestamps to epoch time.
-		uploadtime="$(date +%s -d "$uploadtime")"
+			# Only print video info if the video was uploaded since $compdate.
+			if [ "$uploadtime" -gt "$compdate" ]; then
+				while read title && read dur && read id; do
+					# Nicely format information about the video.
+					# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
+					# removes the hours place if it is empty.
+					dur="$(printf "[%02d:%02d:%02d]" $(( dur / 3600 )) $(( ( dur / 60 ) % 60 )) $(( dur % 60 )) | sed 's/\[00:/\[/')"
+					# Only print line characters if nolinechars is not set.
+					[ -n "$nolinechars" ] && info="$info$title $dur\n  youtu.be/$id\n" || info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
+				done < <(youtube-dl --no-warnings -j "$line" | jq -r '.title,.duration,.id')
+				# The pipe sequence above does the following:
+				# Downloads the json file for the given YouTube video, and
+				# Extracts the values we need.
+			fi
+		done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' | grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' | sed 's/^<yt:videoId>/youtu.be\//;s/<\/yt:videoId>$//' | sed '2,${ /^<name>.*$/ d};' | sed 's/^<[a-z]*>//;s/<\/[a-z]*>$//')
+		# The pipe sequence above does the following:
+		# Downloads the XML file from YouTube,
+		# Removes leading whitespace,
+		# Extracts the lines we need,
+		# Formats the youtube URL,
+		# Removes all name tags except the first (for channel name), and
+		# Removes all other opening and closing tags.
 
-		# Only print video info if the video was uploaded since $compdate.
-		if [ "$uploadtime" -gt "$compdate" ]; then
-			while read title && read dur && read id; do
-				# Nicely format information about the video.
-				# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
-				# removes the hours place if it is empty.
-				dur="$(printf "[%02d:%02d:%02d]" $(( dur / 3600 )) $(( ( dur / 60 ) % 60 )) $(( dur % 60 )) | sed 's/\[00:/\[/')"
-				info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
-			done < <(youtube-dl --no-warnings -j "$line" |
-				jq -r '.title,.duration,.id')
-		fi
-	done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' |
-		grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' |
-		sed 's|^<yt:videoId>|youtu.be/|;s|</yt:videoId>$||' |
-		sed '2,${ /^<name>.*$/ d};' | # Keep name at top though
-		sed 's/<[a-z]*>//g;s|</[a-z]*>||g') # Remove XML tags
-			# Only print info if there are new videos, meaning info is more
-			# than one line long.
-			[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
-		done
+		# Only print info if there are new videos, meaning info is more
+		# than one line long.
+		[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
+	done
 }
 
 usage() {
@@ -77,12 +88,13 @@ usage() {
 		You should have received a copy of the GNU General Public License
 		along with this program. If not, see http://www.gnu.org/licenses/.
 
-		Usage: omnavi [-d date] [-f file] [-h]
+		Usage: omnavi [-hn] [-d date] [-f file]
 		Options:
+		    -h          Prints this help.
+			-n          Don't print Unicode line characters when formatting.
 		    -d date     Instead of comparing against 24 hours ago,
 		                compares against this date.
 		    -f file     Instead of reading from stdin, reads from this file.
-		    -h          Prints this help.
 		Examples:
 		    omnavi # reads from standard input
 		    omanvi -f feeds.txt # reads feeds from feeds.txt
@@ -101,10 +113,11 @@ usage() {
 
 date="yesterday"
 file="-"
-while getopts "d:f:h" o; do
+while getopts "d:f:hn" o; do
 	case "$o" in
 		d) date="$OPTARG" ;;
 		f) file="$OPTARG" ;;
+		n) nolinechars="True" ;;
 		*) usage && exit ;;
 	esac
 done

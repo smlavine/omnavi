@@ -17,12 +17,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Usage: omnavi [-d date] [-f file] [-h]
+Usage: omnavi [-hn] [-d date] [-f file]
 Options:
+    -h          Prints this help.
+	-n          Don't print Unicode line characters when formatting.
     -d date     Instead of comparing against 24 hours ago,
                 compares against this date.
     -f file     Instead of reading from stdin, reads from this file.
-    -h          Prints this help.
 Examples:
     omnavi # reads from standard input
     omanvi -f feeds.txt # reads feeds from feeds.txt
