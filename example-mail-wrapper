@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This is a generalized version of the script that I run on a crobjob to send me
+# an email of my YouTube subscriptions every morning. It SHOULD NOT be used
+# unless the variables are modified. Feel free to use and extend this file
+# however you like.
+
+name="user"
+path="$HOME/omnavi/omnavi"
+inputfile="$HOME/omnavi/example-input-file.txt"
+backupfile="$HOME/backups/$(date '+%Y%m%d-%H%M%S')results.txt"
+address="mail@example.com"
+
+output="$($path -f "$inputfile")"
+
+[ -n "$output" ] && echo "Subject:Re: Your YT Subscriptions
+Good morning, $name,
+Today is $(date '+%a, %B %d, %Y').
+In the past day, your subscribed Youtube channels uploaded the following videos:
+
+$output" | tee "$backupfile" | sendmail "$address" ||
+	echo "Error: \$output was empty. $date" > "$backupfile"
+
