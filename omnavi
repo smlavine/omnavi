@@ -96,11 +96,7 @@ Options:
 	-d date     Instead of comparing against 24 hours ago,
 	            compare against this date.
 	-f file     Instead of reading from stdin, read from this file.
-Examples:
-	omnavi # read from standard input
-	omanvi -f example-input-file.txt # read from specified file instead of stdin
-	omnavi -f example-input-file.txt -d 'yesterday 10:40am UTC' # also use date
-	omnavi -d 'last wednesday' # read from standard input, but also compare against specified date
+For examples, see README.md or https://github.com/smlavine/omnavi.
 EOF
 }
 

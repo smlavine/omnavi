@@ -24,11 +24,33 @@ Options:
 	-d date     Instead of comparing against 24 hours ago,
 	            compare against this date.
 	-f file     Instead of reading from stdin, read from this file.
-Examples:
-	omnavi # read from standard input
-	omanvi -f example-input-file.txt # read from specified file instead of stdin
-	omnavi -f example-input-file.txt -d 'yesterday 10:40am UTC' # also use date
-	omnavi -d 'last wednesday' # read from standard input, but also compare against specified date
+```
+
+# EXAMPLES
+
+To read channel IDs from standard input and use the default date and formatting
+settings, simply run:
+
+```
+omnavi
+```
+
+To read from a file instead of standard input:
+
+```
+omnavi -f example-input-file.txt
+```
+
+To compare against a different date than the default (24 hours ago):
+
+```
+omnavi -d 'last wednesday'
+```
+
+Options can be also be joined together, like so:
+
+```
+omnavi -nf example-input-file.txt -d 'April 15'
 ```
 
 # DEPENDENCIES
