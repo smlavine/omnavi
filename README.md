@@ -19,24 +19,23 @@ along with this program. If not, see http://www.gnu.org/licenses/.
 
 Usage: omnavi [-hn] [-d date] [-f file]
 Options:
-    -h          Print this help and exit.
+	-h          Print this help and exit.
 	-n          Don't print Unicode line characters when formatting.
-    -d date     Instead of comparing against 24 hours ago,
-                compare against this date.
-    -f file     Instead of reading from stdin, read from this file.
+	-d date     Instead of comparing against 24 hours ago,
+	            compare against this date.
+	-f file     Instead of reading from stdin, read from this file.
 Examples:
-    omnavi # reads from standard input
-    omanvi -f feeds.txt # reads feeds from feeds.txt
-    omnavi -f feeds.txt -d 'yesterday 10:40am UTC' # also uses specified date
-    omnavi -d 'last wednesday' # reads from standard input, but also compares against specified date
+	omnavi # reads from standard input
+	omanvi -f feeds.txt # reads feeds from feeds.txt
+	omnavi -f feeds.txt -d 'yesterday 10:40am UTC' # also uses specified date
+	omnavi -d 'last wednesday' # reads from standard input, but also compares against specified date
 Input format:
-    <channel-id>            	<Only the first column of input is read.>
-    ...
-    UCL7DDQWP6x7wy0O6L5ZIgxg	2ndJerma
-    UC9_p50tH3WmMslWRWKnM7dQ	Adam Ragusea
-    UCBa659QWEk1AI4Tg--mrJ2A	Tom Scott
-    UCBgWgQyEb5eTzvh4lLcuipQ	Wikitongues
-
+	<channel-id>            	<Only the first column of input is read.>
+	...
+	UCL7DDQWP6x7wy0O6L5ZIgxg	2ndJerma
+	UC9_p50tH3WmMslWRWKnM7dQ	Adam Ragusea
+	UCBa659QWEk1AI4Tg--mrJ2A	Tom Scott
+	UCBgWgQyEb5eTzvh4lLcuipQ	Wikitongues
 ```
 
 # DEPENDENCIES
