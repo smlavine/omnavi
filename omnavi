@@ -117,6 +117,6 @@ done
 if [ "$file" = "-" -o -f "$file" ]; then
 	output
 else
-	echo "Error: "$file" does not exist." >/dev/stderr
+	>&2 echo "Error: "$file" does not exist."
 	exit 1
 fi
