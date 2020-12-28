@@ -56,6 +56,7 @@ omnavi -nf example-input-file.txt -d 'April 15'
 # DEPENDENCIES
 
 * GNU coreutils
+* GNU bash
 * GNU sed
 * curl
 * youtube-dl
