@@ -15,7 +15,7 @@ output="$($path -f "$inputfile")"
 
 [ -n "$output" ] && echo "Subject:Re: Your YT Subscriptions
 Good morning, $name,
-Today is $(date '+%a, %B %d, %Y').
+Today is $(date '+%A, %B %d, %Y').
 In the past day, your subscribed Youtube channels uploaded the following videos:
 
 $output" | tee "$backupfile" | sendmail "$address" ||
