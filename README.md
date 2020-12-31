@@ -24,6 +24,7 @@ Options:
 	-d date     Instead of comparing against 24 hours ago,
 	            compare against this date.
 	-f file     Instead of reading from stdin, read from this file.
+	-g video    Print the channel ID of the uploader of the given video.
 ```
 
 # EXAMPLES
@@ -45,6 +46,12 @@ To compare against a different date than the default (24 hours ago):
 
 ```
 omnavi -d 'last wednesday'
+```
+
+To get the uploader of a certain video:
+
+```
+omnavi -g https://www.youtube.com/watch?v=jNQXAC9IVRw
 ```
 
 Options can be also be joined together, like so:

@@ -96,21 +96,28 @@ Options:
 	-d date     Instead of comparing against 24 hours ago,
 	            compare against this date.
 	-f file     Instead of reading from stdin, read from this file.
+	-g video    Print the channel ID of the uploader of the given video.
 For examples, see README.md or https://github.com/smlavine/omnavi.
 EOF
 }
 
 date="yesterday"
 file="-"
-while getopts "d:f:hn" o; do
+while getopts "d:f:g:hn" o; do
 	case "$o" in
 		d) date="$OPTARG" ;;
 		f) file="$OPTARG" ;;
+		g) get="$OPTARG" ;;
 		n) nolinechars="True" ;;
 		*) usage && exit ;;
 	esac
 done
-if [ "$file" = "-" -o -f "$file" ]; then
+
+if [ "$get" ]; then
+	# Get the channel ID and uploader of the video, then put them both on one
+	# line with a tab between them with 'paste'.
+	youtube-dl -j "$get" | jq -r '.channel_id,.uploader' | paste - -
+elif [ "$file" = "-" -o -f "$file" ]; then
 	output
 else
 	>&2 echo "Error: "$file" does not exist."
