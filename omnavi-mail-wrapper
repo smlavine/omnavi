@@ -1,9 +1,8 @@
 #!/bin/sh
 
 # This is a generalized version of the script that I run on a crobjob to send
-# me an email of my YouTube subscriptions every morning. It SHOULD NOT be used
-# unless the variables are modified. Feel free to use and extend this file
-# however you like.
+# me an email of my YouTube subscriptions every morning. Feel free to use and
+# extend this file however you like.
 
 name="user"
 path="$HOME/omnavi/omnavi"
