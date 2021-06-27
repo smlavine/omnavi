@@ -12,11 +12,14 @@ address="mail@example.com"
 
 output="$($path -f "$inputfile")"
 
-[ -n "$output" ] && echo "Subject:Re: Your YT Subscriptions
-Good morning, $name,
-Today is $(date '+%A, %B %d, %Y').
-In the past day, your subscribed Youtube channels uploaded the following videos:
+if [ -n "$output" ]; then
+	echo "Subject:Re: Your YT Subscriptions
+	Good morning, $name,
+	Today is $(date '+%A, %B %d, %Y').
+	In the past day, your subscribed Youtube channels uploaded the following videos:
 
-$output" | tee "$backupfile" | sendmail "$address" ||
-	echo "Error: \$output was empty. $date" > "$backupfile"
+	$output" | tee "$backupfile" | sendmail "$address"
+else
+	echo "Error: \$output was empty. $(date)" > "$backupfile"
+fi
 
