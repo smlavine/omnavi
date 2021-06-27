@@ -23,6 +23,9 @@ output() {
 	# Follow this with a channel ID to get the URL to a channel's RSS feed.
 	feed_prefix="https://www.youtube.com/feeds/videos.xml?channel_id="
 
+	# Follow this with a video ID to get the URL to a video.
+	url_prefix="https://youtu.be/"
+
 	# Only the first column of a file is read to allow for comments (like the
 	# channel's name) to follow.
 	awk '{ print $1 }' "$file" | while read channel_id; do
@@ -51,9 +54,9 @@ output() {
 					dur="$(printf "[%02d:%02d:%02d]" $(( dur / 3600 )) $(( ( dur / 60 ) % 60 )) $(( dur % 60 )) | sed 's/\[00:/\[/')"
 					# Only print line characters if linechars is set.
 					if [ "$linechars" ]; then
-						info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
+						info="$info├──┬─$title $dur\n│  └── $url_prefix$id\n"
 					else
-						info="$info$title $dur\n  youtu.be/$id\n"
+						info="$info$title $dur\n  $url_prefix$id\n"
 					fi
 				done < <(youtube-dl --no-warnings -j "$line" | jq -r '.title,.duration,.id' | sed 's/%/%%/g')
 				# The pipe sequence above does the following:
@@ -61,7 +64,7 @@ output() {
 				# Extracts the values we need, and
 				# Sanitizes the info for printf.
 			fi
-		done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' | grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' | sed 's/^<yt:videoId>/youtu.be\//;s/<\/yt:videoId>$//' | sed '2,${ /^<name>.*$/ d};' | sed 's/^<[a-z]*>//;s/<\/[a-z]*>$//')
+		done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' | grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' | sed "s/^<yt:videoId>/$url_prefix\//;s/<\/yt:videoId>$//" | sed '2,${ /^<name>.*$/ d};' | sed 's/^<[a-z]*>//;s/<\/[a-z]*>$//')
 		# The pipe sequence above does the following:
 		# Downloads the XML file from YouTube,
 		# Removes leading whitespace,
