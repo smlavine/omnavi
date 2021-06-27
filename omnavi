@@ -31,11 +31,12 @@ output() {
 		info=""
 		while read line && read uploadtime; do
 			# The first line is the name of input is the channel.
-			[ -z "$info" ] &&
-				if [ -n "$nolinechars" ]; then
-				info="$line:\n"
-			else
-				info="|$line:\n"
+			if [ -z "$info" ]; then
+				if [ "$linechars" ]; then
+					info="|$line:\n"
+				else
+					info="$line:\n"
+				fi
 			fi
 
 			# Convert the upload timestamps to epoch time.
@@ -48,8 +49,12 @@ output() {
 					# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
 					# removes the hours place if it is empty.
 					dur="$(printf "[%02d:%02d:%02d]" $(( dur / 3600 )) $(( ( dur / 60 ) % 60 )) $(( dur % 60 )) | sed 's/\[00:/\[/')"
-					# Only print line characters if nolinechars is not set.
-					[ -n "$nolinechars" ] && info="$info$title $dur\n  youtu.be/$id\n" || info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
+					# Only print line characters if linechars is set.
+					if [ "$linechars" ]; then
+						info="$info├──┬─$title $dur\n│  └── youtu.be/$id\n"
+					else
+						info="$info$title $dur\n  youtu.be/$id\n"
+					fi
 				done < <(youtube-dl --no-warnings -j "$line" | jq -r '.title,.duration,.id' | sed 's/%/%%/g')
 				# The pipe sequence above does the following:
 				# Downloads the json file for the given YouTube video,
@@ -103,12 +108,13 @@ EOF
 
 date="yesterday"
 file="-"
+linechars=1
 while getopts "d:f:g:hn" o; do
 	case "$o" in
 		d) date="$OPTARG" ;;
 		f) file="$OPTARG" ;;
 		g) get="$OPTARG" ;;
-		n) nolinechars="True" ;;
+		n) linechars= ;;
 		*) usage && exit ;;
 	esac
 done
