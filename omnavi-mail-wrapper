@@ -12,7 +12,7 @@ address="mail@example.com"
 
 output="$($path -f "$inputfile")"
 
-if [ -n "$output" ]; then
+if [ "$output" ]; then
 	echo "Subject:Re: Your YT Subscriptions
 	Good morning, $name,
 	Today is $(date '+%A, %B %d, %Y').
