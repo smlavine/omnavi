@@ -64,7 +64,7 @@ output() {
 				# Extracts the values we need, and
 				# Sanitizes the info for printf.
 			fi
-		done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' | grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' | sed "s/^<yt:videoId>/$url_prefix\//;s/<\/yt:videoId>$//" | sed '2,${ /^<name>.*$/ d};' | sed 's/^<[a-z]*>//;s/<\/[a-z]*>$//')
+		done < <(curl -sL "$feed_prefix$channel_id" | sed 's/^ *//' | grep -e '^<yt:videoId>' -e '^<published>' -e '^<name>' | sed "s_^<yt:videoId>_$url_prefix/_;s/<\/yt:videoId>$//" | sed '2,${ /^<name>.*$/ d};' | sed 's/^<[a-z]*>//;s/<\/[a-z]*>$//')
 		# The pipe sequence above does the following:
 		# Downloads the XML file from YouTube,
 		# Removes leading whitespace,
