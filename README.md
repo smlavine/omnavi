@@ -17,7 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see http://www.gnu.org/licenses/.
 
-Usage: omnavi [-hn] [-d date] [-f file]
+Usage: omnavi [-hn] [-d date] [-f file] [-g video]
 Options:
 	-h          Print this help and exit.
 	-n          Don't print Unicode line characters when formatting.
