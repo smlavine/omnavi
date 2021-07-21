@@ -72,10 +72,6 @@ output() {
 		# Formats the youtube URL,
 		# Removes all name tags except the first (for channel name), and
 		# Removes all other opening and closing tags.
-
-		# Only print info if there are new videos, meaning info is more
-		# than one line long.
-		[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
 	done
 }
 
