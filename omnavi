@@ -28,11 +28,11 @@ output() {
 
 	# Only the first column of a file is read to allow for comments (like the
 	# channel's name) to follow.
-	awk '{ print $1 }' "$file" | while read channel_id; do
+	awk '{ print $1 }' "$file" | while read -r channel_id; do
 		# Must declare variable at this scope because of how while loops and
 		# subshells are handled.
 		info=""
-		while read line && read uploadtime; do
+		while read -r line && read -r uploadtime; do
 			# The first line is the name of input is the channel.
 			if [ -z "$info" ]; then
 				if [ "$linechars" ]; then
@@ -47,7 +47,7 @@ output() {
 
 			# Only print video info if the video was uploaded since $compdate.
 			if [ "$uploadtime" -gt "$compdate" ]; then
-				while read title && read dur && read id; do
+				while read -r title && read -r dur && read -r id; do
 					# Nicely format information about the video.
 					# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
 					# removes the hours place if it is empty.
