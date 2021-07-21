@@ -73,7 +73,9 @@ output() {
 		# Removes all name tags except the first (for channel name), and
 		# Removes all other opening and closing tags.
 
-		echo "$info"
+		# Only print info if there are new videos, meaning info is more
+		# than one line long.
+		[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
 	done
 }
 
