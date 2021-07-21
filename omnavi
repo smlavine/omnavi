@@ -28,11 +28,11 @@ output() {
 
 	# Only the first column of a file is read to allow for comments (like the
 	# channel's name) to follow.
-	awk '{ print $1 }' "$file" | while read channel_id; do
+	awk '{ print $1 }' "$file" | while read -r channel_id; do
 		# Must declare variable at this scope because of how while loops and
 		# subshells are handled.
 		info=""
-		while read line && read uploadtime; do
+		while read -r line && read -r uploadtime; do
 			# The first line is the name of input is the channel.
 			if [ -z "$info" ]; then
 				if [ "$linechars" ]; then
@@ -47,7 +47,7 @@ output() {
 
 			# Only print video info if the video was uploaded since $compdate.
 			if [ "$uploadtime" -gt "$compdate" ]; then
-				while read title && read dur && read id; do
+				while read -r title && read -r dur && read -r id; do
 					# Nicely format information about the video.
 					# Format time from seconds to [hh:mm:ss]. The 'sed' at the end
 					# removes the hours place if it is empty.
@@ -72,10 +72,6 @@ output() {
 		# Formats the youtube URL,
 		# Removes all name tags except the first (for channel name), and
 		# Removes all other opening and closing tags.
-
-		# Only print info if there are new videos, meaning info is more
-		# than one line long.
-		[ "$(printf "$info" | wc -l)" -gt 1 ] && printf "$info\n"
 	done
 }
 
@@ -126,9 +122,9 @@ if [ "$get" ]; then
 	# Get the channel ID and uploader of the video, then put them both on one
 	# line with a tab between them with 'paste'.
 	youtube-dl -j "$get" | jq -r '.channel_id,.uploader' | paste - -
-elif [ "$file" = "-" -o -f "$file" ]; then
+elif [ "$file" = "-" ] || [ -f "$file" ]; then
 	output
 else
-	>&2 echo "Error: "$file" does not exist."
+	>&2 echo "Error: '$file' does not exist."
 	exit 1
 fi
