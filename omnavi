@@ -125,6 +125,6 @@ if [ "$get" ]; then
 elif [ "$file" = "-" ] || [ -f "$file" ]; then
 	output
 else
-	>&2 echo "Error: "$file" does not exist."
+	>&2 echo "Error: '$file' does not exist."
 	exit 1
 fi
