@@ -122,7 +122,7 @@ if [ "$get" ]; then
 	# Get the channel ID and uploader of the video, then put them both on one
 	# line with a tab between them with 'paste'.
 	youtube-dl -j "$get" | jq -r '.channel_id,.uploader' | paste - -
-elif [ "$file" = "-" -o -f "$file" ]; then
+elif [ "$file" = "-" ] || [ -f "$file" ]; then
 	output
 else
 	>&2 echo "Error: "$file" does not exist."
