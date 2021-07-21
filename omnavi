@@ -101,7 +101,7 @@ Options:
 	            compare against this date.
 	-f file     Instead of reading from stdin, read from this file.
 	-g video    Print the channel ID of the uploader of the given video.
-For examples, see README.md or https://github.com/smlavine/omnavi.
+For examples, see README.md or https://sr.ht/~smlavine/omnavi.
 EOF
 }
 
