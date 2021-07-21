@@ -72,6 +72,8 @@ output() {
 		# Formats the youtube URL,
 		# Removes all name tags except the first (for channel name), and
 		# Removes all other opening and closing tags.
+
+		echo "$info"
 	done
 }
 
