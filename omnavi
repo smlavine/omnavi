@@ -1,6 +1,6 @@
 #!/bin/bash
 # omnavi - A program to receive YouTube subscriptions without a Google account.
-# Copyright (C) 2020-2021 Sebastian LaVine <mail@smlavine.com>
+# Copyright (C) 2020-2022 Sebastian LaVine <mail@smlavine.com>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,6 +14,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see http://www.gnu.org/licenses/.
+
+YT="$(command -v yt-dlp)"
+if ! [ "$YT" ]; then
+	YT="$(command -v youtube-dl)"
+	if [ "$YT" ]; then
+		>&2 printf '%s: Warning: youtube-dl is deprecated. Install yt-dlp.\n' "$0"
+	else
+		>&2 printf '%s: Fatal: yt-dlp not found. Is it installed and in "$PATH"?\n' "$0"
+		exit 1
+	fi
+fi
 
 output() {
 
@@ -58,7 +69,7 @@ output() {
 					else
 						info="$info$title $dur\n  $url_prefix$id\n"
 					fi
-				done < <(youtube-dl --no-warnings -j "$line" | jq -r '.title,.duration,.id' | sed 's/%/%%/g')
+				done < <("$YT" --no-warnings -j "$line" | jq -r '.title,.duration,.id' | sed 's/%/%%/g')
 				# The pipe sequence above does the following:
 				# Downloads the json file for the given YouTube video,
 				# Extracts the values we need, and
@@ -125,7 +136,7 @@ done
 if [ "$get" ]; then
 	# Get the channel ID and uploader of the video, then put them both on one
 	# line with a tab between them with 'paste'.
-	youtube-dl -j "$get" | jq -r '.channel_id,.uploader' | paste - -
+	"$YT" -j "$get" | jq -r '.channel_id,.uploader' | paste - -
 elif [ "$file" = "-" ] || [ -f "$file" ]; then
 	output
 else
