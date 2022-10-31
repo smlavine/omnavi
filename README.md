@@ -1,22 +1,8 @@
-# OMNAVI
+# [omnavi](https://sr.ht/~smlavine/omnavi)
+
+A program to receive YouTube subscriptions without a Google account.
 
 ```
-omnavi - A program to receive YouTube subscriptions without a Google account.
-Copyright (C) 2020 Sebastian LaVine <mail@smlavine.com>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see http://www.gnu.org/licenses/.
-
 Usage: omnavi [-hn] [-d date] [-f file] [-g video]
 Options:
 	-h          Print this help and exit.
@@ -27,7 +13,7 @@ Options:
 	-g video    Print the channel ID of the uploader of the given video.
 ```
 
-# EXAMPLES
+# Examples
 
 To read channel IDs from standard input and use the default date and formatting
 settings, simply run:
@@ -60,7 +46,7 @@ Options can be also be joined together, like so:
 omnavi -nf example-input-file.txt -d 'April 15'
 ```
 
-# DEPENDENCIES
+# Dependencies
 
 * GNU coreutils
 * GNU bash
@@ -69,3 +55,19 @@ omnavi -nf example-input-file.txt -d 'April 15'
 * youtube-dl
 * jq
 
+# Copyright
+
+Copyright (C) 2020 Sebastian LaVine <mail@smlavine.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/.
