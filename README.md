@@ -1,6 +1,8 @@
 # [omnavi](https://sr.ht/~smlavine/omnavi)
 
-A program to receive YouTube subscriptions without a Google account.
+A CLI YouTube subscription aggregator. It parses channel Atom feeds and
+formats video info into a easy-to-read text file, all without needing a
+Google account.
 
 ```
 Usage: omnavi [-hn] [-d date] [-f file] [-g video]
