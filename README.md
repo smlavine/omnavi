@@ -54,7 +54,7 @@ omnavi -nf example-input-file.txt -d 'April 15'
 * GNU bash
 * GNU sed
 * curl
-* youtube-dl
+* yt-dlp
 * jq
 
 # Copyright
