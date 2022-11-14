@@ -4,22 +4,20 @@
 # me an email of my YouTube subscriptions every morning. Feel free to use and
 # extend this file however you like.
 
-name="user"
+name="$USER"
 path="$HOME/omnavi/omnavi"
 inputfile="$HOME/omnavi/example-input-file.txt"
 backupfile="$HOME/backups/$(date '+%Y%m%d-%H%M%S')results.txt"
 address="mail@example.com"
 
-output="$($path -f "$inputfile")"
+cat > "$backupfile" << EOF
+Subject: Your YT Subscriptions for $(date '+%Y-%m-%d')
+Good morning, $name,
+Today is $(date '+%A, %B %d, %Y').
+In the past day, your subscribed Youtube channels uploaded the following videos:
 
-if [ "$output" ]; then
-	echo "Subject:Re: Your YT Subscriptions
-	Good morning, $name,
-	Today is $(date '+%A, %B %d, %Y').
-	In the past day, your subscribed Youtube channels uploaded the following videos:
+EOF
 
-	$output" | tee "$backupfile" | sendmail "$address"
-else
-	echo "Error: \$output was empty. $(date)" > "$backupfile"
-fi
+"$path" < "$inputfile" >> "$backupfile"
 
+sendmail "$address" < "$backupfile"
